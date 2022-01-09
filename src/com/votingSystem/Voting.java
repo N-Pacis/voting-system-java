@@ -1,5 +1,7 @@
 package com.votingSystem;
 
+import services.VotingService;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.Scanner;
 public class Voting {
     private static Integer candidateChoice;
     private static Scanner scan;
-    private static FileOperations fileOperations = new FileOperations();
+    private static VotingService fileOperations = new VotingService();
 
     private void updateVotes(String candidate) throws IOException {
         FileInputStream inputStream = new FileInputStream("storage/candidates.csv");
