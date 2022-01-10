@@ -13,7 +13,6 @@ public class UserValidator{
 
     private static String fullName;
     private static String validNationalId;
-    private static String nationality;
     private static String userEmail;
     private static String userPassword;
 
@@ -85,9 +84,6 @@ public class UserValidator{
                 validNationalId = scan.nextLine();
                 checkNationalId(validNationalId);
                 value = validNationalId;
-                break;
-            case "nationality":
-                nationality = (scan.nextLine()).toUpperCase();
                 break;
             case "email":
                 userEmail = scan.nextLine().toLowerCase();
