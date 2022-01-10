@@ -2,6 +2,7 @@ package com.votingSystem;
 
 import exceptions.EmailExistsException;
 import exceptions.InvalidUserException;
+import helpers.UniqueRandomCharacters;
 import services.UserService;
 import validators.UserValidator;
 
@@ -13,26 +14,27 @@ import java.util.Scanner;
 
 public class User {
     UserValidator validator = new UserValidator();
+    UserService userService = new UserService();
     private static Scanner scan = new Scanner(System.in);
 
     private static String name;
     private static String nationalId;
-    private static String nationality;
     private static String email;
     private static String password;
     private static List<String> invalidFields = new ArrayList<String>();
 
-    public void registerUser() throws IOException{
-        String[] fields= {"name","nationalId","nationality","email","password"};
+    public Boolean registerUser() throws IOException{
+        UniqueRandomCharacters randomCharacters = new UniqueRandomCharacters();
+        String[] fields= {"name","nationalId","email","password"};
         System.out.println("### \t\tPLEASE FILL THE REQUIRED INFORMATION ###");
         for(String field : fields){
             generateInput(field);
         }
-        System.out.println("Name: "+name);
-        System.out.println("nationalId: "+nationalId);
-        System.out.println("nationality: "+nationality);
-        System.out.println("email: "+email);
-        System.out.println("Password: "+password);
+        String userId = randomCharacters.random();
+        String userInfo = userId +","+name+","+nationalId+","+email+","+password+"\n";
+        userService.saveToFile("users.csv",userInfo,true);
+        System.out.println("### REGISTERED SUCCESSFULLY ###");
+        return true;
     }
 
     private void generateInput(String fieldName){
@@ -45,9 +47,6 @@ public class User {
             case "nationalId":
                 nationalId = scan.nextLine();
                 nationalId = validator.checkNationalId(nationalId);
-                break;
-            case "nationality":
-                nationality = (scan.nextLine()).toUpperCase();
                 break;
             case "email":
                 email = scan.nextLine().toLowerCase();
