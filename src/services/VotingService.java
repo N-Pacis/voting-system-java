@@ -4,11 +4,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VotingService {
-    private static FileInputStream inputStream;
-    private static FileOutputStream outputStream;
+public class VotingService extends MainService{
 
-    public List<String> readFileData(String filename) throws IOException {
+    public List<String> readFileData(String filename) throws IOException{
         inputStream = new FileInputStream("storage/"+filename);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         Integer count = 0;
@@ -22,22 +20,6 @@ public class VotingService {
         return Candidates;
     }
 
-    public List<String> readWholeFileData(String filename) throws IOException {
-        inputStream = new FileInputStream("storage/"+filename);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        Integer count = 0;
-        List<String> Candidates = new ArrayList<String>();
-        while(reader.ready()){
-            count++;
-            String line = reader.readLine();
-            Candidates.add(line);
-        }
-        return Candidates;
-    }
 
-    public void saveToFile(String filename, String data,Boolean append) throws IOException{
-        outputStream = new FileOutputStream("storage/"+filename, append);
-        byte[] bytesArray = data.getBytes();
-        outputStream.write(bytesArray);
-    }
+
 }
