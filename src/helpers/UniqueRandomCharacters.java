@@ -16,9 +16,6 @@ public class UniqueRandomCharacters {
         Collections.shuffle(randomCharacters);
         Collections.reverse(randomCharacters);
         Collections.shuffle(randomCharacters);
-        for(int i=5;i<randomCharacters.size();i++){
-            randomCharacters.remove(i);
-        }
         Collections.shuffle(letters);
         for(int j=0;j< 5;j++){
             if(j%2 != 0 & j != 5){
