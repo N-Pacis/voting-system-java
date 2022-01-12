@@ -35,7 +35,6 @@ public class Voting {
             fileOperations.saveToFile("candidates.csv","",false);
             for(String updatedCandidate: updatedCandidates){
                 updatedCandidate += "\n";
-                System.out.println(updatedCandidate);
                 fileOperations.saveToFile("candidates.csv",updatedCandidate,true);
             }
         }
@@ -69,7 +68,11 @@ public class Voting {
         }
     }
 
-    public void castVote() throws IOException {
+    public void castVote(String userId) throws IOException {
+        if(fileOperations.checkVoter(userId)){
+            System.out.println("## You Have Already voted ##");
+            System.exit(0);
+        }
         System.out.println("### PLEASE CHOOSE YOUR CANDIDATE ###");
         List<String> Candidates = new ArrayList<String>(fileOperations.readFileData("candidates.csv"));
         Integer count = 0;
@@ -88,5 +91,6 @@ public class Voting {
             updateVotes(Candidates.get(candidateChoice));
             System.out.println("#### THANKS FOR YOUR VOTE ####");
         }
+        fileOperations.saveToFile("voters.csv",userId+"\n",true);
     }
 }

@@ -18,17 +18,20 @@ public class UserService extends MainService{
         return false;
     }
 
-    public Boolean checkCredentials(String email,String password) throws IOException {
+    public String checkCredentials(String email,String password) throws IOException {
         inputStream = new FileInputStream("storage/users.csv");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         while(reader.ready()){
             String line = reader.readLine();
             String[] splittedLine = line.split(",");
             if(splittedLine[2].equals(email) && splittedLine[3].equals(password)){
-                return true;
+                return splittedLine[0];
+            }
+            else{
+                return "";
             }
         }
-        return false;
+        return "";
     }
 
 }
