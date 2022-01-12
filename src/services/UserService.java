@@ -1,16 +1,19 @@
 package services;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class UserService extends MainService{
     private static FileInputStream inputStream;
 
-    public Boolean checkEmail(String email){
-        if(email.equals("abcd@gmail.com")){
-            return true;
+    public Boolean checkEmail(String email) throws IOException {
+        inputStream = new FileInputStream("storage/users.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        while(reader.ready()){
+            String line = reader.readLine();
+            String[] splittedLine = line.split(",");
+            if(splittedLine[2].equals(email)){
+                return true;
+            }
         }
         return false;
     }
