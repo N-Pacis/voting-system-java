@@ -1,11 +1,15 @@
 package com.votingSystem;
 
+import services.VotingService;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     private static Integer choice;
     private static Boolean loggedIn = false;
+    private static String userId;
+    private static VotingService votingService = new VotingService();
     public static void main(String[] args) throws IOException {
         do{
             System.out.println("##################################################");
@@ -21,6 +25,7 @@ public class Main {
             switch(choice){
                 case 1:
                     if(user.registerUser()){
+                        userId = user.getUserId();
                         loggedIn = true;
                     }
                     break;
@@ -29,9 +34,8 @@ public class Main {
                         System.out.println("### INVALID CREDENTIALS ###");
                         user.login();
                     }
-                    else{
-                        loggedIn = true;
-                    }
+                    userId = user.getUserId();
+                    loggedIn = true;
                     break;
                 case 0:
                     System.exit(0);
@@ -43,9 +47,15 @@ public class Main {
         if(loggedIn){
             do{
                 System.out.println("### CHOOSE AN ACTION BELOW ###");
-                System.out.println("\t\t\t\t 1. Cast your vote");
-                System.out.println("\t\t\t\t 2. Find Vote Count");
-                System.out.println("\t\t\t\t 3. Find the leading candidate");
+                Integer count = 1;
+                if(!votingService.checkVoter(userId)){
+                    System.out.println("\t\t\t\t "+count+". Cast your vote");
+                    count++;
+                }
+                System.out.println("\t\t\t\t "+count+". Find Vote Count");
+                count++;
+                System.out.println("\t\t\t\t "+count+". Find the leading candidate");
+                count++;
                 System.out.println("\t\t\t\t 0. Exit");
                 System.out.println("PLEASE ENTER YOUR CHOICE:");
 
@@ -53,9 +63,10 @@ public class Main {
                 choice = scan.nextInt();
 
                 Voting voting = new Voting();
+                if(votingService.checkVoter(userId)) choice +=1;
                 switch(choice){
                     case 1:
-                        voting.castVote();
+                        voting.castVote(userId);
                         break;
                     case 2:
                         voting.votesCount();
