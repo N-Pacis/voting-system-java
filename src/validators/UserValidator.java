@@ -2,6 +2,7 @@ package validators;
 
 import services.UserService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +16,7 @@ public class UserValidator{
     private static String userEmail;
     private static String userPassword;
 
-    public String checkName(String name){
+    public String checkName(String name) throws IOException {
         if(name.length() < 5){
             System.out.println("Error: Name must be at least 5 characters");
             fullName = generateInput("name");
@@ -30,7 +31,7 @@ public class UserValidator{
         return fullName;
     }
 
-    public String checkEmail(String email){
+    public String checkEmail(String email) throws IOException {
         String[] splitted = email.split("@");
         List<String> emailSplitted = new ArrayList<String>(Arrays.asList(splitted));
 
@@ -48,7 +49,7 @@ public class UserValidator{
         return userEmail;
     }
 
-    public String checkPassword(String password){
+    public String checkPassword(String password) throws IOException {
         if(password.length() < 5){
             System.out.println("Error: Password must be at least 5 characters");
             userPassword = generateInput("password");
@@ -59,7 +60,7 @@ public class UserValidator{
         return userPassword;
     }
 
-    public String generateInput(String fieldName){
+    public String generateInput(String fieldName) throws IOException {
         System.out.println("\t\t - ENTER YOUR "+fieldName.toUpperCase());
         String value = "";
         switch(fieldName){

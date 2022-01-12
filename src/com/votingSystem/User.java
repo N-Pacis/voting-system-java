@@ -43,7 +43,7 @@ public class User {
         return false;
     }
 
-    private void generateInput(String fieldName){
+    private void generateInput(String fieldName) throws IOException {
         System.out.println("\t\t - ENTER YOUR "+fieldName.toUpperCase());
         switch(fieldName){
             case "name":
