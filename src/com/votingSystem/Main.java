@@ -24,6 +24,15 @@ public class Main {
                         loggedIn = true;
                     }
                     break;
+                case 2:
+                    if(!user.login()){
+                        System.out.println("### INVALID CREDENTIALS ###");
+                        user.login();
+                    }
+                    else{
+                        loggedIn = true;
+                    }
+                    break;
                 case 0:
                     System.exit(0);
                 default:
