@@ -1,15 +1,10 @@
 package com.votingSystem;
 
-import exceptions.EmailExistsException;
-import exceptions.InvalidUserException;
 import helpers.UniqueRandomCharacters;
 import services.UserService;
 import validators.UserValidator;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class User {
@@ -18,23 +13,34 @@ public class User {
     private static Scanner scan = new Scanner(System.in);
 
     private static String name;
-    private static String nationalId;
     private static String email;
     private static String password;
-    private static List<String> invalidFields = new ArrayList<String>();
 
     public Boolean registerUser() throws IOException{
         UniqueRandomCharacters randomCharacters = new UniqueRandomCharacters();
-        String[] fields= {"name","nationalId","email","password"};
+        String[] fields= {"name","email","password"};
         System.out.println("### \t\tPLEASE FILL THE REQUIRED INFORMATION ###");
         for(String field : fields){
             generateInput(field);
         }
         String userId = randomCharacters.random();
-        String userInfo = userId +","+name+","+nationalId+","+email+","+password+"\n";
+        String userInfo = userId +","+name+","+email+","+password+"\n";
         userService.saveToFile("users.csv",userInfo,true);
         System.out.println("### REGISTERED SUCCESSFULLY ###");
         return true;
+    }
+
+    public Boolean login() throws IOException{
+        String[] fields = {"email","password"};
+        System.out.println("### \t\t ENTER YOUR ACCOUNT");
+        for(String field: fields){
+            generateInput(field);
+        }
+        Boolean checkCredentials = userService.checkCredentials(email,password);
+        if(checkCredentials){
+            return true;
+        }
+        return false;
     }
 
     private void generateInput(String fieldName){
@@ -43,10 +49,6 @@ public class User {
             case "name":
                 name = scan.nextLine();
                 name = validator.checkName(name);
-                break;
-            case "nationalId":
-                nationalId = scan.nextLine();
-                nationalId = validator.checkNationalId(nationalId);
                 break;
             case "email":
                 email = scan.nextLine().toLowerCase();
