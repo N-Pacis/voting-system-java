@@ -20,6 +20,15 @@ public class VotingService extends MainService{
         return Candidates;
     }
 
-
-
+    public Boolean checkVoter(String userId) throws IOException {
+        inputStream = new FileInputStream("storage/voters.csv");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        while(reader.ready()){
+            String line = reader.readLine();
+            if(line.equals(userId)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
