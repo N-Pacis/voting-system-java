@@ -15,35 +15,46 @@ public class User {
     private static String name;
     private static String email;
     private static String password;
+    private String userId;
 
     public Boolean registerUser() throws IOException{
         UniqueRandomCharacters randomCharacters = new UniqueRandomCharacters();
         String[] fields= {"name","email","password"};
         System.out.println("### \t\tPLEASE FILL THE REQUIRED INFORMATION ###");
         for(String field : fields){
-            generateInput(field);
+            generateInput(field,"register");
         }
         String userId = randomCharacters.random();
         String userInfo = userId +","+name+","+email+","+password+"\n";
         userService.saveToFile("users.csv",userInfo,true);
         System.out.println("### REGISTERED SUCCESSFULLY ###");
+        setUserId(userId);
         return true;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public Boolean login() throws IOException{
         String[] fields = {"email","password"};
         System.out.println("### \t\t ENTER YOUR ACCOUNT");
         for(String field: fields){
-            generateInput(field);
+            generateInput(field,"login");
         }
-        Boolean checkCredentials = userService.checkCredentials(email,password);
-        if(checkCredentials){
+        String checkCredentials = userService.checkCredentials(email,password);
+        if(!checkCredentials.isEmpty()){
+            setUserId(checkCredentials);
             return true;
         }
         return false;
     }
 
-    private void generateInput(String fieldName) throws IOException {
+    private void generateInput(String fieldName,String source) throws IOException {
         System.out.println("\t\t - ENTER YOUR "+fieldName.toUpperCase());
         switch(fieldName){
             case "name":
@@ -52,7 +63,9 @@ public class User {
                 break;
             case "email":
                 email = scan.nextLine().toLowerCase();
-                email = validator.checkEmail(email);
+                if(source.equals("register")){
+                    email = validator.checkEmail(email);
+                }
                 break;
             case "password":
                 password = scan.nextLine();
