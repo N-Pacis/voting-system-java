@@ -12,7 +12,6 @@ public class UserValidator{
     private static Scanner scan = new Scanner(System.in);
 
     private static String fullName;
-    private static String validNationalId;
     private static String userEmail;
     private static String userPassword;
 
@@ -29,17 +28,6 @@ public class UserValidator{
             fullName = name;
         }
         return fullName;
-    }
-
-    public String checkNationalId(String nationalId){
-        if(!(nationalId.length() == 16)){
-            System.out.println("Error: NationalId must be valid");
-            validNationalId = generateInput("nationalId");
-        }
-        else{
-            validNationalId = nationalId;
-        }
-        return validNationalId;
     }
 
     public String checkEmail(String email){
@@ -79,11 +67,6 @@ public class UserValidator{
                 fullName = scan.nextLine();
                 checkName(fullName);
                 value = fullName;
-                break;
-            case "nationalId":
-                validNationalId = scan.nextLine();
-                checkNationalId(validNationalId);
-                value = validNationalId;
                 break;
             case "email":
                 userEmail = scan.nextLine().toLowerCase();
