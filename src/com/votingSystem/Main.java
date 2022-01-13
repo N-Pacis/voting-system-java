@@ -1,5 +1,6 @@
 package com.votingSystem;
 
+import helpers.ErrorMessageLogger;
 import services.VotingService;
 
 import java.io.IOException;
@@ -10,6 +11,8 @@ public class Main {
     private static Boolean loggedIn = false;
     private static String userId;
     private static VotingService votingService = new VotingService();
+    private static ErrorMessageLogger error = new ErrorMessageLogger();
+
     public static void main(String[] args) throws IOException {
         do{
             System.out.println("##################################################");
@@ -31,7 +34,7 @@ public class Main {
                     break;
                 case 2:
                     if(!user.login()){
-                        System.out.println("### INVALID CREDENTIALS ###");
+                        error.log("### INVALID CREDENTIALS ###");
                         user.login();
                     }
                     userId = user.getUserId();
@@ -40,7 +43,7 @@ public class Main {
                 case 0:
                     System.exit(0);
                 default:
-                    System.out.println("!!! Invalid choice !!!");
+                    error.log("!!! Invalid choice !!!");
             }
 
         }while(!loggedIn);
@@ -77,7 +80,7 @@ public class Main {
                     case 0:
                         System.exit(0);
                     default:
-                        System.out.println("!!! Invalid choice !!!");
+                        error.log("!!! Invalid choice !!!");
                 }
 
             }while(!choice.equals(0));

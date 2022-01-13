@@ -1,5 +1,7 @@
 package com.votingSystem;
 
+import helpers.ErrorMessageLogger;
+import helpers.SuccessMessageLogger;
 import services.VotingService;
 
 import java.io.*;
@@ -11,6 +13,9 @@ public class Voting {
     private static Integer candidateChoice;
     private static Scanner scan;
     private static VotingService fileOperations = new VotingService();
+    private static ErrorMessageLogger error = new ErrorMessageLogger();
+    private static SuccessMessageLogger success = new SuccessMessageLogger();
+
 
     private void updateVotes(String candidate) throws IOException {
         FileInputStream inputStream = new FileInputStream("storage/candidates.csv");
@@ -47,7 +52,6 @@ public class Voting {
         for(String Candidate : Candidates){
             System.out.println("\t\t\t- "+Candidate.split(",")[0] +" with "+ Candidate.split(",")[1]+" votes");
         }
-        System.out.println("##### YOUR VOTE CAN CHANGE EVERYTHING! VOTE NOW #####");
     }
 
     public void leadingCandidate() throws IOException {
@@ -63,14 +67,14 @@ public class Voting {
         for(String Candidate : Candidates){
             Integer votes = Integer.parseInt(Candidate.split(",")[1]);
             if(votes.equals(highestVotes)){
-                System.out.println("\t\t\t - "+Candidate.split(",")[0]+" with "+Candidate.split(",")[1]+" votes");
+                success.log("\t\t\t - "+Candidate.split(",")[0]+" with "+Candidate.split(",")[1]+" votes");
             }
         }
     }
 
     public void castVote(String userId) throws IOException {
         if(fileOperations.checkVoter(userId)){
-            System.out.println("## You Have Already voted ##");
+            error.log("## You Have Already voted ##");
             System.exit(0);
         }
         System.out.println("### PLEASE CHOOSE YOUR CANDIDATE ###");
@@ -85,11 +89,11 @@ public class Voting {
         Integer length = Candidates.size();
         candidateChoice -= 1;
         if(!(candidateChoice  >= 0 && candidateChoice < length)){
-            System.out.println("\n !!! ERROR: INVALID CHOICE !!!");
+            error.log("\n !!! ERROR: INVALID CHOICE !!!");
         }
         else{
             updateVotes(Candidates.get(candidateChoice));
-            System.out.println("#### THANKS FOR YOUR VOTE ####");
+            success.log("#### THANKS FOR YOUR VOTE ####");
         }
         fileOperations.saveToFile("voters.csv",userId+"\n",true);
     }

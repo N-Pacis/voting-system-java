@@ -1,5 +1,7 @@
 package validators;
 
+import helpers.ErrorMessageLogger;
+import helpers.SuccessMessageLogger;
 import services.UserService;
 
 import java.io.IOException;
@@ -11,18 +13,19 @@ import java.util.Scanner;
 public class UserValidator{
     private static UserService userService = new UserService();
     private static Scanner scan = new Scanner(System.in);
-
+    private static ErrorMessageLogger error = new ErrorMessageLogger();
+    private static SuccessMessageLogger success = new SuccessMessageLogger();
     private static String fullName;
     private static String userEmail;
     private static String userPassword;
 
     public String checkName(String name) throws IOException {
         if(name.length() < 5){
-            System.out.println("Error: Name must be at least 5 characters");
+            error.log("Error: Name must be at least 5 characters");
             fullName = generateInput("name");
         }
         else if(name.split(" ").length < 2){
-            System.out.println("Error: You must provide your full names");
+            error.log("Error: You must provide your full names");
             fullName = generateInput("name");
         }
         else{
@@ -36,11 +39,11 @@ public class UserValidator{
         List<String> emailSplitted = new ArrayList<String>(Arrays.asList(splitted));
 
         if(email.length() < 5 || !emailSplitted.contains("gmail.com")){
-            System.out.println("Error: Email must be valid");
+            error.log("Error: Email must be valid");
             userEmail = generateInput("email");
         }
         else if(userService.checkEmail(email)){
-            System.out.println("Error: Email already exists");
+            error.log("Error: Email already exists");
             userEmail = generateInput("email");
         }
         else{
@@ -51,7 +54,7 @@ public class UserValidator{
 
     public String checkPassword(String password) throws IOException {
         if(password.length() < 5){
-            System.out.println("Error: Password must be at least 5 characters");
+            error.log("Error: Password must be at least 5 characters");
             userPassword = generateInput("password");
         }
         else{
@@ -80,7 +83,7 @@ public class UserValidator{
                 value = userPassword;
                 break;
             default:
-                System.out.println("Invalid field");
+                error.log("Invalid field");
         }
         return value;
     }

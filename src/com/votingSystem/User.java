@@ -1,5 +1,7 @@
 package com.votingSystem;
 
+import helpers.ErrorMessageLogger;
+import helpers.SuccessMessageLogger;
 import helpers.UniqueRandomCharacters;
 import services.UserService;
 import validators.UserValidator;
@@ -16,6 +18,8 @@ public class User {
     private static String email;
     private static String password;
     private String userId;
+    private static ErrorMessageLogger error = new ErrorMessageLogger();
+    private static SuccessMessageLogger success = new SuccessMessageLogger();
 
     public Boolean registerUser() throws IOException{
         UniqueRandomCharacters randomCharacters = new UniqueRandomCharacters();
@@ -27,7 +31,7 @@ public class User {
         String userId = randomCharacters.random();
         String userInfo = userId +","+name+","+email+","+password+"\n";
         userService.saveToFile("users.csv",userInfo,true);
-        System.out.println("### REGISTERED SUCCESSFULLY ###");
+        success.log("### REGISTERED SUCCESSFULLY ###");
         setUserId(userId);
         return true;
     }
@@ -72,7 +76,7 @@ public class User {
                 password = validator.checkPassword(password);
                 break;
             default:
-                System.out.println("Invalid field");
+                error.log("Invalid field");
         }
     }
 }
