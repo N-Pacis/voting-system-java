@@ -7,7 +7,7 @@ public class DatabaseConnection {
     private static String dbUser = "root";
     private static String dbPassword = "pacis123";
 
-    public static void main(String[] args) {
+    public DatabaseConnection() {
         try{
             Connection myConnection = DriverManager.getConnection(dbUrl,dbUser,dbPassword);
             Statement myStatement = myConnection.createStatement();
