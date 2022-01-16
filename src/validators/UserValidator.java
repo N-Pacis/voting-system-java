@@ -5,6 +5,7 @@ import helpers.SuccessMessageLogger;
 import services.UserService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +20,7 @@ public class UserValidator{
     private static String userEmail;
     private static String userPassword;
 
-    public String checkName(String name) throws IOException {
+    public String checkName(String name) throws IOException, SQLException {
         if(name.length() < 5){
             error.log("Error: Name must be at least 5 characters");
             fullName = generateInput("name");
@@ -34,7 +35,7 @@ public class UserValidator{
         return fullName;
     }
 
-    public String checkEmail(String email) throws IOException {
+    public String checkEmail(String email) throws IOException, SQLException {
         String[] splitted = email.split("@");
         List<String> emailSplitted = new ArrayList<String>(Arrays.asList(splitted));
 
@@ -52,7 +53,7 @@ public class UserValidator{
         return userEmail;
     }
 
-    public String checkPassword(String password) throws IOException {
+    public String checkPassword(String password) throws IOException, SQLException {
         if(password.length() < 5){
             error.log("Error: Password must be at least 5 characters");
             userPassword = generateInput("password");
@@ -63,7 +64,7 @@ public class UserValidator{
         return userPassword;
     }
 
-    public String generateInput(String fieldName) throws IOException {
+    public String generateInput(String fieldName) throws IOException, SQLException {
         System.out.println("\t\t - ENTER YOUR "+fieldName.toUpperCase());
         String value = "";
         switch(fieldName){
