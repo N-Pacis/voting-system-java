@@ -1,9 +1,11 @@
 package com.votingSystem;
 
+import helpers.DatabaseConnection;
 import helpers.ErrorMessageLogger;
 import services.VotingService;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Main {
@@ -13,7 +15,8 @@ public class Main {
     private static VotingService votingService = new VotingService();
     private static ErrorMessageLogger error = new ErrorMessageLogger();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
+        new DatabaseConnection();
         do{
             System.out.println("##################################################");
             System.out.println(" ###### Welcome to Election/Voting 2022 #####");
