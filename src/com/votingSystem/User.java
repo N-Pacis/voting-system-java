@@ -7,6 +7,7 @@ import services.UserService;
 import validators.UserValidator;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class User {
@@ -21,7 +22,7 @@ public class User {
     private static ErrorMessageLogger error = new ErrorMessageLogger();
     private static SuccessMessageLogger success = new SuccessMessageLogger();
 
-    public Boolean registerUser() throws IOException{
+    public Boolean registerUser() throws IOException, SQLException {
         UniqueRandomCharacters randomCharacters = new UniqueRandomCharacters();
         String[] fields= {"name","email","password"};
         System.out.println("### \t\tPLEASE FILL THE REQUIRED INFORMATION ###");
@@ -29,8 +30,7 @@ public class User {
             generateInput(field,"register");
         }
         String userId = randomCharacters.random();
-        String userInfo = userId +","+name+","+email+","+password+"\n";
-        userService.saveToFile("users.csv",userInfo,true);
+        userService.registerUser(userId,name,email,password);
         success.log("### REGISTERED SUCCESSFULLY ###");
         setUserId(userId);
         return true;
@@ -44,7 +44,7 @@ public class User {
         this.userId = userId;
     }
 
-    public Boolean login() throws IOException{
+    public Boolean login() throws IOException, SQLException {
         String[] fields = {"email","password"};
         System.out.println("### \t\t ENTER YOUR ACCOUNT");
         for(String field: fields){
@@ -58,7 +58,7 @@ public class User {
         return false;
     }
 
-    private void generateInput(String fieldName,String source) throws IOException {
+    private void generateInput(String fieldName,String source) throws IOException, SQLException {
         System.out.println("\t\t - ENTER YOUR "+fieldName.toUpperCase());
         switch(fieldName){
             case "name":
