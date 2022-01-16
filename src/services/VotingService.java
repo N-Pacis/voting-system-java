@@ -4,31 +4,29 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VotingService extends MainService{
+public class VotingService{
+    public List<String> getCandidates() throws IOException {
+        List<String> Data = new ArrayList<String>();
+        return Data;
+    }
 
-    public List<String> readFileData(String filename) throws IOException{
-        inputStream = new FileInputStream("storage/"+filename);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        Integer count = 0;
+    public void registerCandidate(String names,Integer votes) throws IOException{
+    }
+
+    public void saveVoters(String userId) throws IOException{
+
+    }
+
+    public void updateCandidateVotes(String userId) throws IOException{
+
+    }
+
+    public List<String> getLeadingCandidates() throws IOException{
         List<String> Candidates = new ArrayList<String>();
-        while(reader.ready()){
-            count++;
-            String line = reader.readLine();
-            String[] splittedLine = line.split(",");
-            Candidates.add(splittedLine[0]);
-        }
         return Candidates;
     }
 
     public Boolean checkVoter(String userId) throws IOException {
-        inputStream = new FileInputStream("storage/voters.csv");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        while(reader.ready()){
-            String line = reader.readLine();
-            if(line.equals(userId)){
-                return true;
-            }
-        }
         return false;
     }
 }
