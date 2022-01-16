@@ -5,6 +5,7 @@ import helpers.SuccessMessageLogger;
 import services.VotingService;
 
 import java.io.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,28 +17,28 @@ public class Voting {
     private static ErrorMessageLogger error = new ErrorMessageLogger();
     private static SuccessMessageLogger success = new SuccessMessageLogger();
 
-    private void updateVotes(String candidate) throws IOException {
+    private void updateVotes(String candidate) throws SQLException {
         String[] splittedCandidate = candidate.split(",");
-        votingService.updateCandidateVotes(splittedCandidate[0]);
+        votingService.updateCandidateVotes(Integer.valueOf(splittedCandidate[0]));
  }
 
-    public void votesCount() throws  IOException{
+    public void votesCount() throws IOException, SQLException {
         System.out.println("##### VOTES COUNT #####");
         List<String> Candidates = new ArrayList<String>(votingService.getCandidates());
         for(String Candidate : Candidates){
-            System.out.println("\t\t\t- "+Candidate.split(",")[0] +" with "+ Candidate.split(",")[1]+" votes");
+            success.log("\t\t\t- "+Candidate.split(",")[1] +" with "+ Candidate.split(",")[0]+" votes");
         }
     }
 
-    public void leadingCandidate() throws IOException {
+    public void leadingCandidate() throws IOException, SQLException {
         System.out.println("##### LEADING CANDIDATE #####");
         List<String> Candidates = votingService.getLeadingCandidates();
         for(String Candidate : Candidates){
-            success.log("\t\t\t - "+Candidate.split(",")[0]+" with "+Candidate.split(",")[1]+" votes");
+            success.log("\t\t\t - "+Candidate.split(",")[1]+" with "+Candidate.split(",")[0]+" votes");
         }
     }
 
-    public void castVote(String userId) throws IOException {
+    public void castVote(String userId) throws IOException, SQLException {
         if(votingService.checkVoter(userId)){
             error.log("## You Have Already voted ##");
             System.exit(0);
@@ -48,7 +49,7 @@ public class Voting {
         Integer count = 0;
         for(String candidate : Candidates){
             count++;
-            System.out.println("\t\t\t "+count+". "+candidate);
+            System.out.println("\t\t\t "+count+". "+candidate.split(",")[1]);
         }
 
         scan = new Scanner(System.in);
