@@ -20,7 +20,8 @@ public class VotingService{
         ResultSet result = statement.executeQuery(sql);
         while(result.next()){
             Integer candidateVotes =  result.getInt("candidateVotes");
-            Data.add(candidateVotes.toString() +","+result.getString("candidateName"));
+            Integer candidateId = result.getInt("candidateId");
+            Data.add(candidateId.toString()+","+candidateVotes.toString() +","+result.getString("candidateName"));
         }
         return Data;
     }
@@ -47,7 +48,7 @@ public class VotingService{
         String sql = "UPDATE candidates SET candidateVotes=candidateVotes+1 WHERE candidateId=?";
         PreparedStatement statement = conn.prepareStatement(sql);
         statement.setInt(1,candidateId);
-        if(statement.executeUpdate() <= 0){
+        if (statement.executeUpdate() <= 0){
             error.log("Unable to save some info");
             System.exit(-1);
         }

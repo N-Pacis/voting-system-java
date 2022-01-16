@@ -22,11 +22,11 @@ public class Voting {
         votingService.updateCandidateVotes(Integer.valueOf(splittedCandidate[0]));
  }
 
-    public void votesCount() throws IOException, SQLException {
+    public void votesCount() throws SQLException {
         System.out.println("##### VOTES COUNT #####");
         List<String> Candidates = new ArrayList<String>(votingService.getCandidates());
         for(String Candidate : Candidates){
-            success.log("\t\t\t- "+Candidate.split(",")[1] +" with "+ Candidate.split(",")[0]+" votes");
+            success.log("\t\t\t- "+Candidate.split(",")[2] +" with "+ Candidate.split(",")[1]+" votes");
         }
     }
 
@@ -49,7 +49,7 @@ public class Voting {
         Integer count = 0;
         for(String candidate : Candidates){
             count++;
-            System.out.println("\t\t\t "+count+". "+candidate.split(",")[1]);
+            System.out.println("\t\t\t "+count+". "+candidate.split(",")[2]);
         }
 
         scan = new Scanner(System.in);
