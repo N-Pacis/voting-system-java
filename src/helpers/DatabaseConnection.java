@@ -3,9 +3,9 @@ package helpers;
 import java.sql.*;
 
 public class DatabaseConnection {
-    private static String dbUrl = "jdbc:mysql://localhost/votingSystem";
-    private static String dbUser = "root";
-    private static String dbPassword = "pacis123";
+    private static final String dbUrl = "jdbc:mysql://localhost/votingSystem";
+    private static final String dbUser = "root";
+    private static final String dbPassword = "pacis123";
     public static Connection myConnection;
 
     public DatabaseConnection() {
